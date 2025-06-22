@@ -302,6 +302,9 @@ public class VentanaReportes extends javax.swing.JFrame {
         frameMovimientos = new javax.swing.JInternalFrame();
         panelMovimientos = new javax.swing.JPanel();
         btnGrilla = new javax.swing.JButton();
+        comboDia = new javax.swing.JComboBox<>();
+        comboMes = new javax.swing.JComboBox<>();
+        comboAnio = new javax.swing.JComboBox<>();
         frameEstadisticas = new javax.swing.JInternalFrame();
         lblServiciosMasUsados = new javax.swing.JLabel();
         lblEmpleadosMovimientos = new javax.swing.JLabel();
@@ -378,7 +381,7 @@ public class VentanaReportes extends javax.swing.JFrame {
                     .addComponent(btnFiltrar)
                     .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addContainerGap())
         );
         frameHistorialLayout.setVerticalGroup(
@@ -411,25 +414,46 @@ public class VentanaReportes extends javax.swing.JFrame {
             }
         });
 
+        comboDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione un día-" }));
+
+        comboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione un mes-" }));
+
+        comboAnio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione un año-" }));
+
         javax.swing.GroupLayout frameMovimientosLayout = new javax.swing.GroupLayout(frameMovimientos.getContentPane());
         frameMovimientos.getContentPane().setLayout(frameMovimientosLayout);
         frameMovimientosLayout.setHorizontalGroup(
             frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(frameMovimientosLayout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(58, 58, 58)
                 .addComponent(panelMovimientos, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(btnGrilla)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(frameMovimientosLayout.createSequentialGroup()
+                        .addComponent(comboDia, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboMes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameMovimientosLayout.createSequentialGroup()
+                        .addComponent(btnGrilla, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8)))
+                .addComponent(comboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         frameMovimientosLayout.setVerticalGroup(
             frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(frameMovimientosLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelMovimientos, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(frameMovimientosLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(37, 37, 37)
+                        .addComponent(panelMovimientos, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, frameMovimientosLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(frameMovimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
                         .addComponent(btnGrilla)))
                 .addContainerGap(133, Short.MAX_VALUE))
         );
@@ -482,7 +506,7 @@ public class VentanaReportes extends javax.swing.JFrame {
                         .addGroup(frameEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblEmpleadosMovimientos)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                         .addGroup(frameEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblClientesContratos))
@@ -635,6 +659,9 @@ public class VentanaReportes extends javax.swing.JFrame {
     private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnGrilla;
     private javax.swing.JButton btnOrdenar;
+    private javax.swing.JComboBox<String> comboAnio;
+    private javax.swing.JComboBox<String> comboDia;
+    private javax.swing.JComboBox<String> comboMes;
     private javax.swing.JComboBox<String> comboVehiculoReportes;
     private javax.swing.JInternalFrame frameEstadisticas;
     private javax.swing.JInternalFrame frameHistorial;
