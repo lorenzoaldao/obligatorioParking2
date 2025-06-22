@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,7 @@ public class VentanaReportes extends javax.swing.JFrame {
         initComponents();
         configurarComponentes();
         cargarVehiculos();
+        cargarEstadisticas();
     }
     
     private void configurarComponentes() {
@@ -241,6 +243,44 @@ public class VentanaReportes extends javax.swing.JFrame {
         }
     }
     
+    // SEPARADOR---------------------------------------------------------------
+    // VENTANAS ESTADISTICAS GENERALES
+    
+    
+    public void cargarEstadisticas() {
+        // 1. Servicios más utilizados
+        List<String> serviciosMasUsados = sistema.obtenerServiciosMasUtilizados();
+        String textoServicios = "";
+        for (String s : serviciosMasUsados) {
+            textoServicios += "- " + s + "\n";
+        }
+        txtAreaServicios.setText(textoServicios);
+
+        // 2. Clientes con más vehículos
+        List<String> clientesTop = sistema.obtenerClientesConMasVehiculos(sistema.getClientes());
+        String textoClientes = "";
+        for (String s : clientesTop) {
+            textoClientes += "- " + s + "\n";
+        }
+        txtAreaClientesContratos.setText(textoClientes);
+
+        // 3. Empleados con menos movimientos
+        List<Empleado> empleadosMenos = sistema.obtenerEmpleadosConMenosMovimientos(sistema.getEmpleados());
+        String textoEmpleados = "";
+        for (Empleado e : empleadosMenos) {
+            textoEmpleados += "- " + e.getNombre() + "\n"; 
+        }
+        txtAreaEmpleadosMovimientos.setText(textoEmpleados);
+
+        // 4. Estadías más largas
+        List<Salida> estadiasLargas = sistema.obtenerEstadiasMasLargas();
+        String textoEstadias = "";
+        for (Salida s : estadiasLargas) {
+            textoEstadias += "- " + s.getEntrada().getVehiculo().getMatricula()
+                           + " - " + s.calcularTiempoEstadia() + "\n";
+        }
+        txtAreaEstadia.setText(textoEstadias);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
