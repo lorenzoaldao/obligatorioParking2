@@ -6,8 +6,11 @@ AUTORES - ESTUDIANTES
 package dominio;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Sistema extends Observable implements Serializable {
@@ -408,7 +411,134 @@ public class Sistema extends Observable implements Serializable {
         }
         return sistema;
     }
+    public List<String> obtenerServiciosMasUtilizados() {
+        List<String> tiposServicio = new ArrayList<>();
+        List<Integer> conteos = new ArrayList<>();
+
+        for (ServicioAdicional servicio : serviciosAdicionales) {
+            String tipo = servicio.getTipoServicio();
+            if (tiposServicio.contains(tipo)) {
+                int index = tiposServicio.indexOf(tipo);
+                conteos.set(index, conteos.get(index) + 1);
+            } else {
+                tiposServicio.add(tipo);
+                conteos.add(1);
+            }
+        }
+
+        int max = 0;
+        for (int c : conteos) {
+            if (c > max) max = c;
+        }
+
+        List<String> masUsados = new ArrayList<>();
+        for (int i = 0; i < tiposServicio.size(); i++) {
+            if (conteos.get(i) == max) {
+                masUsados.add(tiposServicio.get(i) + " (" + max + " veces)");
+            }
+        }
+
+        return masUsados;
+    }
     
+    public List<Salida> obtenerEstadiasMasLargas() {
+        List<Salida> resultado = new ArrayList<>();
+        long mayorDuracion = 0;
+
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
+        for (Salida salida : salidas) {
+            Entrada entrada = salida.getEntrada();
+
+            try {
+                LocalDate fechaEntrada = LocalDate.parse(entrada.getFecha(), formatoFecha);
+                LocalTime horaEntrada = LocalTime.parse(entrada.getHora(), formatoHora);
+                LocalDate fechaSalida = LocalDate.parse(salida.getFecha(), formatoFecha);
+                LocalTime horaSalida = LocalTime.parse(salida.getHora(), formatoHora);
+
+                LocalDateTime fechaHoraEntrada = LocalDateTime.of(fechaEntrada, horaEntrada);
+                LocalDateTime fechaHoraSalida = LocalDateTime.of(fechaSalida, horaSalida);
+
+                long minutos = Duration.between(fechaHoraEntrada, fechaHoraSalida).toMinutes();
+
+                if (minutos > mayorDuracion) {
+                    mayorDuracion = minutos;
+                    resultado.clear();
+                    resultado.add(salida);
+                } else if (minutos == mayorDuracion) {
+                    resultado.add(salida);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return resultado;
+    }
+    public List<Empleado> obtenerEmpleadosConMenosMovimientos(List<Empleado> empleados) {
+        List<Empleado> resultado = new ArrayList<>();
+        int minMovimientos = Integer.MAX_VALUE;
+
+        for (Empleado e : empleados) {
+            int contador = 0;
+
+            for (Entrada entrada : entradas) {
+                if (entrada.getEmpleado().equals(e)) {
+                    contador++;
+                }
+            }
+
+            for (Salida salida : salidas) {
+                if (salida.getEmpleado().equals(e)) {
+                    contador++;
+                }
+            }
+
+            for (ServicioAdicional servicio : serviciosAdicionales) {
+                if (servicio.getEmpleado().equals(e)) {
+                    contador++;
+                }
+            }
+
+            if (contador < minMovimientos) {
+                minMovimientos = contador;
+                resultado.clear();
+                resultado.add(e);
+            } else if (contador == minMovimientos) {
+                resultado.add(e);
+            }
+        }
+
+        return resultado;
+    }
+    
+    public List<String> obtenerClientesConMasVehiculos(List<Cliente> clientes) {
+        List<String> nombresClientes = new ArrayList<>();
+        List<Integer> conteos = new ArrayList<>();
+        for (Cliente cliente : clientes) {
+            int contador = 0;
+            for (Contrato contrato : contratos) {
+                if (contrato.getCliente().equals(cliente)) {
+                    contador++;
+                }
+            }
+            nombresClientes.add(cliente.getNombre());
+            conteos.add(contador);
+        }
+        int max = 0;
+        for (int c : conteos) {
+            if (c > max) max = c;
+        }
+        List<String> clientesMasVehiculos = new ArrayList<>();
+        for (int i = 0; i < nombresClientes.size(); i++) {
+            if (conteos.get(i) == max) {
+                clientesMasVehiculos.add(nombresClientes.get(i) + " (" + max + " vehÃ­culos)");
+            }
+        }
+        return clientesMasVehiculos;
+    }
     // Getters
     public ArrayList<Cliente> getClientes(){ 
         return clientes; 
